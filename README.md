@@ -2,7 +2,27 @@
 
 > Upload a Product Requirements Document and get back QA test cases formatted to match your team's existing CSV template — or just ask questions about the document itself.
 
-![React](https://img.shields.io/badge/React-19-149ECA) ![Vite](https://img.shields.io/badge/Vite-8-646CFF) ![Express](https://img.shields.io/badge/Express-5-000000) ![Node.js](https://img.shields.io/badge/Node.js-backend-339933) ![Langflow](https://img.shields.io/badge/Langflow-orchestration-FF6B6B) ![ChromaDB](https://img.shields.io/badge/ChromaDB-vector%20store-6A2C70) ![Ollama](https://img.shields.io/badge/Ollama-nomic--embed--text-000000) ![Groq](https://img.shields.io/badge/Groq-openai%2Fgpt--oss--120b-F55036)
+![React](https://img.shields.io/badge/React-19-149ECA) ![Vite](https://img.shields.io/badge/Vite-8-646CFF) ![Express](https://img.shields.io/badge/Express-5-000000) ![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933) ![Langflow](https://img.shields.io/badge/Langflow-orchestration-FF6B6B) ![ChromaDB](https://img.shields.io/badge/ChromaDB-vector%20store-6A2C70) ![Ollama](https://img.shields.io/badge/Ollama-nomic--embed--text-000000) ![Groq](https://img.shields.io/badge/Groq-openai%2Fgpt--oss--120b-F55036)
+
+## Contents
+
+- [What It Does](#what-it-does)
+- [Architecture](#architecture)
+- [AI Integration](#ai-integration)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [AI Service Setup](#ai-service-setup)
+- [Running Locally](#running-locally)
+- [Using the App](#using-the-app)
+- [Input Format](#input-format)
+- [Output Format](#output-format)
+- [Sample Files](#sample-files)
+- [API Reference](#api-reference)
+- [Project Structure](#project-structure)
+- [Team Adoption Checklist](#team-adoption-checklist)
+- [Troubleshooting](#troubleshooting)
+- [License](#license)
 
 ## What It Does
 
@@ -65,7 +85,7 @@ Upload a PRD (PDF, `.txt`, or `.md`) and ask for test cases — the app retrieve
 
 **Orchestration layer — Langflow.** The retrieval + prompt + generation logic (chunk retrieval, the dual-mode system prompt, and the LLM call) all live inside a Langflow flow rather than hardcoded backend logic. This means the retrieval strategy, prompt wording, and even the LLM provider can be changed by editing the flow in Langflow's visual editor — no backend code changes or redeploys needed.
 
-**LLM provider — Groq, model `openai/gpt-oss-120b`.** Selected inside the flow's Groq model node for free-tier access and fast inference; a smaller model (`llama-3.1-8b-instant`) was tried first but was unreliable at holding to the strict 11-column CSV format and often invented content unrelated to the retrieved PRD chunks. `openai/gpt-oss-120b` is the same model size class used in the reference architecture this project's UI is modeled on. To swap models, open the flow in Langflow and change the **Model Name** dropdown on the Groq node — no code change required.
+**LLM provider — Groq, model `openai/gpt-oss-120b`.** Selected inside the flow's Groq model node for free-tier access and fast inference; a smaller model (`llama-3.1-8b-instant`) was tried first but was unreliable at holding to the strict 11-column CSV format and often invented content unrelated to the retrieved PRD chunks. `openai/gpt-oss-120b`, a much larger model, fixed both problems. To swap models, open the flow in Langflow and change the **Model Name** dropdown on the Groq node — no code change required.
 
 **Exact AI call** — `backend/src/langflowClient.js:24`:
 ```js
@@ -197,7 +217,7 @@ Make sure Langflow (`:7860`) and Ollama (`:11434`) are already running before st
 
 ## Input Format
 
-Supported upload types: **PDF**, `.txt`, `.md` (see `ACCEPTED_EXTENSIONS` in `frontend/src/components/IngestionPanel.jsx`). "Ingest folder" additionally accepts `.csv` files placed in `Sample_docs/`.
+Supported upload types: **PDF**, `.txt`, `.md` (see `ACCEPTED_EXTENSIONS` in `frontend/src/components/IngestionPanel.jsx`). "Ingest folder" also picks up `.csv` files if you place any in `Sample_docs/` — the folder currently only has the two sample PDFs below, but the ingestion code (`backend/src/ingest.js`) accepts `.csv` alongside PDF/txt/md.
 
 Real sample PRD used for testing — `Sample_docs/Product Requirements Document (PRD) VWO.com.pdf` — a standard PRD structure: Product Overview → Business Objectives → Target Users → Core Features → Non-Functional Requirements → Success Metrics. A second domain sample, `Sample_docs/Product Requirements Document (PRD) TradeGuard Global Trade Compliance.pdf`, follows the same structure for a different domain (global trade compliance) to verify the flow isn't hardcoded to one PRD's content.
 
@@ -288,7 +308,8 @@ Smart_TestCaseGen_RAG/
 │   │   └── ingest.js            # PDF/txt/md parsing, chunking, Ollama embedding calls
 │   ├── scripts/
 │   │   └── chroma_store.py      # direct ChromaDB read/write (ingest/reset/status), shared with Langflow's store
-│   └── .env                     # local secrets/config (not committed)
+│   ├── .env                     # local secrets/config (not committed)
+│   └── .env.example             # config template with placeholder values
 ├── frontend/
 │   └── src/
 │       ├── App.jsx               # top-level layout: stepper + two panels
@@ -302,7 +323,10 @@ Smart_TestCaseGen_RAG/
 ├── TestCase_template/            # the CSV template the app's output format matches
 ├── Downloaded-csv-testcases-samples/  # example downloaded output
 ├── ScreenShots/                  # UI + Langflow diagram screenshots referenced in this README
-└── LangFlow_JSON_Smart_TestCaseGen_RAG.json  # exported flow (structural reference; see AI Service Setup)
+├── LangFlow_JSON_Smart_TestCaseGen_RAG.json  # exported flow (structural reference; see AI Service Setup)
+├── README.md                     # this file
+├── TROUBLESHOOTING.md            # known errors, cause, and fix for each
+└── .gitignore                    # excludes node_modules/, .env, dist/, etc. across both apps
 ```
 
 ## Team Adoption Checklist
@@ -324,6 +348,6 @@ Smart_TestCaseGen_RAG/
 
 Moved to [TROUBLESHOOTING.md](TROUBLESHOOTING.md) — covers known errors (Langflow unreachable, CSV column misalignment, the ChromaDB race condition, the Groq model reverting on save, etc.) with cause and fix for each.
 
----
+## License
 
-**Suggested repo name:** `smart-testcasegen-rag` (kebab-case, matching common GitHub naming convention) — the current folder name `Smart_TestCaseGen_RAG` works too if you'd rather keep it as-is.
+No license specified — internal/team use. Add a `LICENSE` file before treating this as open source.
