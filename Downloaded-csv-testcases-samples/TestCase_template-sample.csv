@@ -1,0 +1,19 @@
+Test Case Template for Project,,,,,,,,,,
+Project Name,,app.vwo.com,,,,,,,,
+Module Name,,"Login, Dashboard",,,,,,,,
+Created By ,,Siddalinga,,,,,,,,
+Created Date,,07-01-2026,,,,,,,,
+Peer Review By,,Sumit,,,,,,,,
+Peer Reviewed Date,,07-01-2026,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+ TID, Scenario Desciption,Test Case ID,Pre Condition,Steps to Execute,Expected Result,Actual Result,Status,Executed QA Name ,Misc (Comments),Pri
+1,"Login with valid email, password",TC_01,app.vwo.com page is loaded correctly.,"1. Open the app.vwo.com
+2. Enter the valid email and password in the fields.
+3. click On submit button and remember me.
+4. Verify that the dashboard page is loaded with valid user..","With valid email, password user should be able to login",Login is working with valid credentials,Passed,Siddalinga,,
+2,"Login with invalid email, password",TC_02,app.vwo.com page is loaded correctly.,"1. Open the app.vwo.com
+2. Enter the invalid email and password in the fields.
+3. click On submit button and remember me.
+4. Error message should be shown with message","With invalid email, password user should be not be able to login and error message ""Your email, password, IP address or location did not match""","Error shown with message ""Your email, password, IP address or location did not match
+""",Passed,Siddalinga,,

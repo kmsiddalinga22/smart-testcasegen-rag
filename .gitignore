@@ -1,0 +1,29 @@
+# dependencies
+**/node_modules/
+
+# env / secrets
+**/.env
+*.local
+
+# build output
+**/dist/
+**/dist-ssr/
+
+# python
+**/__pycache__/
+*.pyc
+
+# logs
+*.log
+npm-debug.log*
+
+# editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

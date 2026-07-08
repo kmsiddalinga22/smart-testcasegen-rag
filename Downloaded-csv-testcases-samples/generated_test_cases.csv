@@ -1,0 +1,14 @@
+﻿Test Case Template for Project
+Project Name,,app.vwo.com
+Module Name,,Generated via Smart TestCaseGen RAG
+Created Date,,07/08/2026
+
+TID,Scenario Description,Test Case ID,Pre Condition,Steps to Execute,Expected Result,Actual Result,Status,Executed QA Name,Misc (Comments),Priority
+1,Scheduled feed refreshes compliance data,TC_01,System is deployed and scheduled feed is configured.,1. Wait for scheduled refresh time. 2. Observe system data.,Compliance data is refreshed successfully from provider.,,,,Ref: compliance data provider and refreshed via a scheduled feed,High
+2,US trade lane displays refreshed data,TC_02,Scheduled feed has completed successfully.,1. Open US trade lane compliance view. 2. Verify displayed data.,US trade lane shows up-to-date compliance data.,,,,"Ref: Initial launch covers US, EU, and UK trade lanes",High
+3,EU trade lane displays refreshed data,TC_03,Scheduled feed has completed successfully.,1. Open EU trade lane compliance view. 2. Verify displayed data.,EU trade lane shows up-to-date compliance data.,,,,"Ref: Initial launch covers US, EU, and UK trade lanes",High
+4,UK trade lane displays refreshed data,TC_04,Scheduled feed has completed successfully.,1. Open UK trade lane compliance view. 2. Verify displayed data.,UK trade lane shows up-to-date compliance data.,,,,"Ref: Initial launch covers US, EU, and UK trade lanes",High
+5,APAC lanes are unavailable before future phase,TC_05,System is at initial launch version.,1. Attempt to access APAC trade lane compliance view.,System indicates APAC lanes are unavailable.,,,,Ref: APAC lanes are planned for a future phase,Medium
+6,Legal sign‑off required before go‑live,TC_06,System is ready for go‑live but legal sign‑off not recorded.,1. Initiate go‑live process. 2. Observe system behavior.,System blocks go‑live until legal sign‑off is recorded.,,,,Ref: Legal team must sign off on all screening match‑confidence thresholds before go‑live,High
+7,Scheduled feed failure due to network error,TC_07,Network connectivity to data provider is disrupted.,1. Trigger scheduled feed. 2. Observe system handling.,System logs failure and retains previous data without crash.,,,,Ref: compliance data provider and refreshed via a scheduled feed,High
+8,Scheduled feed returns empty dataset,TC_08,Data provider is configured to return an empty dataset for next refresh.,1. Run scheduled feed. 2. Check system data.,"System handles empty dataset gracefully, showing no records but no error.",,,,Ref: compliance data provider and refreshed via a scheduled feed,Medium
