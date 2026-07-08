@@ -10,6 +10,12 @@ Upload a PRD (PDF, `.txt`, or `.md`) and ask for test cases — the app retrieve
 
 ## Architecture
 
+![Architecture diagram](ScreenShots/Architecture_Diagram.png)
+*Ingestion (top): uploaded documents are parsed, chunked, embedded, and stored in ChromaDB by the Express backend. Retrieval & Generation (bottom): a question triggers a Langflow run that retrieves matching chunks, builds a dual-mode prompt, and calls Groq for the final answer.*
+
+<details>
+<summary>Text-only version</summary>
+
 ```
  USER (browser)
    │
@@ -39,6 +45,8 @@ Upload a PRD (PDF, `.txt`, or `.md`) and ask for test cases — the app retrieve
                                          ▼
                                      ChromaDB  (collection: rag_testcasegen)
 ```
+
+</details>
 
 **Two separate ingestion paths write to the same ChromaDB store on purpose** — see [AI Integration](#ai-integration) for why.
 
